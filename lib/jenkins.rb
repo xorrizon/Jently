@@ -57,6 +57,7 @@ module Jenkins
         req.params[:id] = job_id
         req.params[:branch] = config[:testing_branch_name]
         req.params[:repository] = config[:github_ssh_repository]
+        req.params[:token] = config[:jenkins_job_api_token] if config[:jenkins_job_api_token]
       end
       Logger.log("Started Jenkins Job with id: #{job_id}")
       job_id
