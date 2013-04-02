@@ -56,6 +56,7 @@ module Jenkins
         req.params[:branch] = config[:testing_branch_name]
         req.params[:repository] = config[:github_ssh_repository]
       end
+      Logger.log(Time.now.strftime("%F %T") + "Started Jenkins Job with id: #{job_id}")
       job_id
     rescue => e
       Logger.log('Error when starting job', e)
