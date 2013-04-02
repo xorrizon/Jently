@@ -4,10 +4,12 @@ require './lib/helpers.rb'
 module Jenkins
   def Jenkins.wait_for_idle_executor
     config = ConfigFile.read
+    Logger.log("Jenkins: Waiting for idle executor")
     while true
-      return if Jenkins.get_nb_of_idle_executors >= 1
+      break if Jenkins.get_nb_of_idle_executors >= 1
       sleep config[:jenkins_polling_interval_seconds]
     end
+    Logger.log("Jenkins: Finished waiting for idle executor")
   end
 
   def Jenkins.get_nb_of_idle_executors
@@ -56,7 +58,7 @@ module Jenkins
         req.params[:branch] = config[:testing_branch_name]
         req.params[:repository] = config[:github_ssh_repository]
       end
-      Logger.log(Time.now.strftime("%F %T") + "Started Jenkins Job with id: #{job_id}")
+      Logger.log("Started Jenkins Job with id: #{job_id}")
       job_id
     rescue => e
       Logger.log('Error when starting job', e)
